@@ -1,0 +1,10 @@
+{"namespace": "loosechippings",
+ "type": "record",
+ "name": "FixMessage",
+ "fields": [
+     {"name": "Id", "type": "string"},
+     {"name": "messageType", "type": "string"},
+     {"name": "senderCompId", "type": "string"},
+     {"name": "messageBody",  "type": "string"}
+ ]
+}
