@@ -1,6 +1,7 @@
 package loosechippings;
 
 import loosechippings.avro.AvroSerializer;
+import loosechippings.avro.KeyedAvroSerializer;
 import loosechippings.fix.FixMessageMaker;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -11,6 +12,7 @@ import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 public class FixAvroProducerPipeline {
@@ -28,8 +30,11 @@ public class FixAvroProducerPipeline {
 
       FlinkKafkaProducer011<WrappedFixMessage> fixMessageProducer = new FlinkKafkaProducer011<>(
             topicName,
-            new AvroSerializer<WrappedFixMessage>(topicName, props),
-            props
+            new KeyedAvroSerializer<WrappedFixMessage>(topicName, "id", props),
+            props,
+            Optional.empty(),
+            FlinkKafkaProducer011.Semantic.EXACTLY_ONCE,
+            FlinkKafkaProducer011.DEFAULT_KAFKA_PRODUCERS_POOL_SIZE
       );
 
       List<Integer> sourceList = new ArrayList<>(LIST_SIZE);

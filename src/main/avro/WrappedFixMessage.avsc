@@ -2,7 +2,7 @@
  "type": "record",
  "name": "WrappedFixMessage",
  "fields": [
-     {"name": "Id", "type": "string"},
+     {"name": "id", "type": "string"},
      {"name": "messageBody",  "type": "string"}
  ]
 }

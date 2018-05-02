@@ -13,6 +13,7 @@ public class FixConsumerPipeline {
 
    public static void main(String[] args) throws Exception {
       StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+      env.getConfig().setLatencyTrackingInterval(100L);
 
       ParameterTool paramTool = ParameterTool.fromPropertiesFile("/home/nick/repos/flinkpipeline/src/main/resources/fix-pipeline.properties");
       Properties props = paramTool.getProperties();
@@ -29,7 +30,7 @@ public class FixConsumerPipeline {
       DataStream<WrappedFixMessage> fixMessageStream = env.addSource(fixMessageConsumer);
       fixMessageConsumer.setStartFromEarliest();
       fixMessageStream
-            .map(parser::parse).returns(FixMessage.class)
+            .map(new ParseMapFunction())
             .print();
 
       env.execute();
