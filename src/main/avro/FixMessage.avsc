@@ -5,6 +5,8 @@
      {"name": "id", "type": "string"},
      {"name": "messageType", "type": "string"},
      {"name": "senderCompId", "type": "string"},
-     {"name": "messageBody",  "type": "string"}
+     {"name": "messageBody",  "type": "string"},
+     {"name": "orderId", "type": "int"},
+     {"name": "sentTime", "type": "long"}
  ]
 }

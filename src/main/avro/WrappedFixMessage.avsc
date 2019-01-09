@@ -3,6 +3,8 @@
  "name": "WrappedFixMessage",
  "fields": [
      {"name": "id", "type": "string"},
+     {"name": "orderId", "type": "int"},
+     {"name": "sentTime", "type": "string"},
      {"name": "messageBody",  "type": "string"}
  ]
 }

@@ -5,6 +5,7 @@ import loosechippings.FixMessage;
 import loosechippings.WrappedFixMessage;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Arrays;
 
 public class FixMessageParser implements Serializable {
@@ -14,6 +15,8 @@ public class FixMessageParser implements Serializable {
    public static final String MESSAGE_TYPE = "35";
    public static final String SENDER_COMP_ID = "49";
    public static final String ID = "571";
+   public static final String SENT_TIME = "52";
+   public static final String ORDER_ID = "37";
 
    public FixMessage parse(WrappedFixMessage message) {
       String[] fields = message.getMessageBody().split(FIELD_DELIMETER.toString());
@@ -27,6 +30,10 @@ public class FixMessageParser implements Serializable {
                   case MESSAGE_TYPE: fixMessageBuilder.setMessageType(v[1]);
                      break;
                   case SENDER_COMP_ID: fixMessageBuilder.setSenderCompId(v[1]);
+                     break;
+                  case SENT_TIME: fixMessageBuilder.setSentTime(Instant.parse(v[1]).toEpochMilli());
+                     break;
+                  case ORDER_ID: fixMessageBuilder.setOrderId(Integer.parseInt(v[1]));
                      break;
                   default:
                }

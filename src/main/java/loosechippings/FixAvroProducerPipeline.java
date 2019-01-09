@@ -10,6 +10,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,8 @@ public class FixAvroProducerPipeline {
             FlinkKafkaProducer011.DEFAULT_KAFKA_PRODUCERS_POOL_SIZE
       );
 
+      Instant startTime = Instant.parse("2018-05-01T08:00:00.000Z");
+
       List<Integer> sourceList = new ArrayList<>(LIST_SIZE);
       for (Integer i=0; i<LIST_SIZE; i++) {
          sourceList.add(i);
@@ -46,7 +49,7 @@ public class FixAvroProducerPipeline {
             .map(new MapFunction<Integer, Tuple2<Integer, String>>() {
                @Override
                public Tuple2<Integer, String> map(Integer integer) throws Exception {
-                  return new Tuple2<Integer, String>(integer, fixMessageMaker.make(integer));
+                  return new Tuple2<Integer, String>(integer, fixMessageMaker.make(startTime, integer));
                }
             })
             .map(new MapFunction<Tuple2<Integer,String>, WrappedFixMessage>() {
